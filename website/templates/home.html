@@ -1,9 +1,9 @@
-{% extends "base.html" %} 
-{% block title %}Home{% endblock %} 
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
 {% block content %}
-<h1 align="center">Post a question</h1>
+<h1 align="center">Post a</h1>
 <ul class="list-group list-group-flush" id="post">
-  {% for post in user.post %}
+  {% for post in posts %} {# Loop through all_posts instead of user.post #}
   <li class="list-group-item">
     {{ post.data }}
     {% if post.attachment %}

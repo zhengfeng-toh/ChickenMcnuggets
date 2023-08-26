@@ -10,7 +10,6 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
-    all_posts = []
     if request.method == 'POST':
         post_text = request.form.get('post')
         image_file = request.files.get('image')
@@ -29,12 +28,10 @@ def home():
 
             flash('Post added!', category='success')
 
-        if current_user.role == 'mentor':
-            # Fetch all posts if the user is a mentor
-            all_posts = Post.query.all()
-        else:
-            # Fetch only the user's posts
-            all_posts = current_user.post
+    if current_user.role == 'mentor':
+        all_posts = Post.query.all()  # Fetch all posts for mentors
+    else:
+        all_posts = current_user.post  # Fetch only the user's posts
 
     return render_template("home.html", user=current_user, posts=all_posts)
 
@@ -50,3 +47,25 @@ def delete_post():
             db.session.commit()
 
     return jsonify({})
+
+
+@views.route('/answer/<int:post_id>', methods=['GET', 'POST'])
+def answer(post_id):
+    if request.method == 'POST':
+        answer_text = request.form.get('post')
+        image_file = request.files.get('image')
+
+        if len(answer_text) < 1:
+            flash('Answer is too short!', category='error')
+        else:
+            new_answer = Post(data=answer_text, user_id=current_user.id)
+            db.session.add(new_answer)
+            db.session.commit()
+
+            if image_file:
+                image_bytes = image_file.read()  # Read the image file as bytes
+                new_answer.attachment = image_bytes
+                db.session.commit()
+
+            flash('Post added!', category='success')
+    return render_template("answer.html", post_id=post_id)
