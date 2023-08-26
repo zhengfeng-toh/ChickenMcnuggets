@@ -1,0 +1,2 @@
+# ChickenMcnuggets
+Ellipsis Hackathon MVP
