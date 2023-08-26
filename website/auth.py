@@ -42,8 +42,9 @@ def sign_up():
         first_name = request.form.get('firstName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
+        # education_level = request.form.get('education_level')
+        # school = request.form.get('school')
         role = request.form.get('role')
-        education_level = request.form.get('education_level')
 
         user = User.query.filter_by(email=email).first()
         if user:
@@ -56,13 +57,11 @@ def sign_up():
             flash('Passwords don\'t match.', category='error')
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
-        elif role != 'mentee' or role != 'mentor':
+        elif role != 'mentee' and role != 'mentor':
             flash('Role must be mentee or mentor', category='error')
-        elif education_level < 7:
-            flash('Choose a proper education level', category='error')
         else:
             new_user = User(email=email, first_name=first_name, password=generate_password_hash(
-                password1, method='sha256'))
+                password1, method='sha256'), role = role)
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)

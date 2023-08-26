@@ -3,11 +3,13 @@ from flask_login import UserMixin
 from sqlalchemy.sql import func
 
 
-class Note(db.Model):
+class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.String(10000))
+    attachment = db.Column(db.LargeBinary)
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    solved = db.Column(db.Boolean)
 
 
 class User(db.Model, UserMixin):
@@ -15,24 +17,24 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
-    question = db.relationship('Note')
+    post = db.relationship('Post')
+    #education_level = db.Column(db.String(150))
+    #school = db.Column(db.String(150))
     role = db.Column(db.String(50))
-    education_level = db.Column(db.String(50))
-    # __mapper_args__ = {
-    #     'polymorphic_identity': 'user',
-    #     'polymorphic_on': role
-    # }
 
-# class Mentee(User):
-#     __mapper_args__ = {
-#         'polymorphic_identity': 'mentee'
-#     }
-#     education_level = db.Column(db.String(50), nullable=False)
-#     questions = db.relationship('Question', backref='mentee', lazy=True)
+class Mentor(User):
+    csp = db.Column(db.String(10))
+    code = db.Column(db.String(50))
+    duration = db.Column(db.Integer)
+    # answer = db.relationship('Answer')
+    
+# class Answer(db.Model, UserMixin):
+#     id = db.Column(db.Integer, primary_key=True)
+#     answer = db.Column(db.String(150))
+#     answer_attachment = db.Column(db.LargeBinary)
+#     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
 
-# class Mentor(User):
-#     __mapper_args__ = {
-#         'polymorphic_identity': 'mentor'
-#     }
-#     education_level = db.Column(db.String(50), nullable=False)
+
+    
+
 
