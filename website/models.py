@@ -1,7 +1,6 @@
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
-from sqlalchemy import ForeignKeyConstraint, sql
 
 
 class Post(db.Model):
@@ -9,18 +8,8 @@ class Post(db.Model):
     data = db.Column(db.String(10000))
     attachment = db.Column(db.LargeBinary)
     date = db.Column(db.DateTime(timezone=True), default=func.now())
-    user_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     solved = db.Column(db.Boolean)
-    post_level = db.Column(db.String)
-
-    user = db.relationship('User', backref='posts')
-
-    __table_args__ = (
-        ForeignKeyConstraint(
-            ['user_id', 'post_level'],
-            ['user.id', 'user.education_level']
-        ),
-    )
 
 
 class User(db.Model, UserMixin):
