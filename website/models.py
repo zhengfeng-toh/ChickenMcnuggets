@@ -1,6 +1,7 @@
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
+# from sqlalchemy.schema import ForeignKeyConstraint
 
 
 class Post(db.Model):
@@ -26,15 +27,15 @@ class Mentor(User):
     csp = db.Column(db.String(10))
     code = db.Column(db.String(50))
     duration = db.Column(db.Integer)
-    # answer = db.relationship('Answer')
     
-# class Answer(db.Model, UserMixin):
-#     id = db.Column(db.Integer, primary_key=True)
+# class Answer(db.Model):
+#     mentor_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+#     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key=True)
 #     answer = db.Column(db.String(150))
 #     answer_attachment = db.Column(db.LargeBinary)
-#     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
-
-
+    
+#     mentor = db.relationship('Mentor', backref='answers')
+#     post = db.relationship('Post', backref='answers')
     
 
 

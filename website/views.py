@@ -10,6 +10,7 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
+    all_posts = []
     if request.method == 'POST':
         post_text = request.form.get('post')
         image_file = request.files.get('image')
@@ -28,7 +29,14 @@ def home():
 
             flash('Post added!', category='success')
 
-    return render_template("home.html", user=current_user)
+        if current_user.role == 'mentor':
+            # Fetch all posts if the user is a mentor
+            all_posts = Post.query.all()
+        else:
+            # Fetch only the user's posts
+            all_posts = current_user.post
+
+    return render_template("home.html", user=current_user, posts=all_posts)
 
 
 @views.route('/delete-post', methods=['POST'])
