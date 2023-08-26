@@ -59,6 +59,10 @@ def sign_up():
             flash('Password must be at least 7 characters.', category='error')
         elif role != 'mentee' and role != 'mentor':
             flash('Role must be mentee or mentor', category='error')
+        elif len(school) < 2:
+            flash('School name must be greater than 1 character.', category='error')
+        elif len(education_level) < 2:
+            flash('Education level must be greater than 1 character.', category='error')
         else:
             new_user = User(email=email, first_name=first_name, password=generate_password_hash(
                 password1, method='sha256'), role = role, school = school, education_level = education_level)
