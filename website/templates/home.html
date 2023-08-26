@@ -1,18 +1,23 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}
+{% extends "base.html" %} 
+{% block title %}Home{% endblock %} 
+{% block content %}
 <h1 align="center">Post</h1>
 <ul class="list-group list-group-flush" id="post">
   {% for post in user.post %}
   <li class="list-group-item">
     {{ post.data }}
+    {% if post.attachment %}
+      <img src="data:image/jpeg;base64,{{ post.attachment }}" alt="Post Attachment" width="100">
+    {% endif %}
     <button type="button" class="close" onClick="deletePost({{ post.id }})">
       <span aria-hidden="true">&times;</span>
     </button>
   </li>
   {% endfor %}
 </ul>
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
   <textarea name="post" id="post" class="form-control"></textarea>
+  <input type="file" name="image" accept="image/*">
   <br />
   <div align="center">
     <button type="submit" class="btn btn-primary">Create post</button>
