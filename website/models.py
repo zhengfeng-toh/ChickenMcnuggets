@@ -18,8 +18,8 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
     post = db.relationship('Post')
-    #education_level = db.Column(db.String(150))
-    #school = db.Column(db.String(150))
+    education_level = db.Column(db.String(150))
+    school = db.Column(db.String(150))
     role = db.Column(db.String(50))
 
 class Mentor(User):

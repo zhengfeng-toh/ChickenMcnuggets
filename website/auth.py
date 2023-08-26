@@ -42,8 +42,8 @@ def sign_up():
         first_name = request.form.get('firstName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-        # education_level = request.form.get('education_level')
-        # school = request.form.get('school')
+        education_level = request.form.get('education_level')
+        school = request.form.get('school')
         role = request.form.get('role')
 
         user = User.query.filter_by(email=email).first()
@@ -61,7 +61,7 @@ def sign_up():
             flash('Role must be mentee or mentor', category='error')
         else:
             new_user = User(email=email, first_name=first_name, password=generate_password_hash(
-                password1, method='sha256'), role = role)
+                password1, method='sha256'), role = role, school = school, education_level = education_level)
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
