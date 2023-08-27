@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Create your question!{% endblock %}
+{% block content %}
+<br>
+<h1 style="text-align: center;">Ask a question!</h1>
+<form method="POST" enctype="multipart/form-data">
+    <textarea name="post" id="post" class="form-control"></textarea>
+    <input type="file" name="image" accept="image/*">
+    <br />
+    <div style="text-align: center">
+      <button type="submit" class="btn btn-primary">Create post</button>
+    </div>
+  </form>
+{% endblock %}
