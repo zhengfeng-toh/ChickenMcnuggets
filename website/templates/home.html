@@ -2,7 +2,12 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 <br>
-<h1 style="text-align: center">See all questions</h1>
+{% if user.role == 'mentor' %}
+  <h1 style="text-align: center">See all questions</h1>
+{% endif %}
+{% if user.role != 'mentor' %}
+  <h1 style="text-align: center">See your questions</h1>
+{% endif %}
 <ul class="list-group list-group-flush" id="post">
   {% for post in posts %}
   <li class="list-group-item" style="display: flex; align-items: center;">
@@ -12,9 +17,13 @@
     <div style="flex: 1;">
       {{ post.data }}
     </div>
-    <button type="button" class="close" onClick="deletePost({{ post.id }})">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    {% if user.role == 'mentor' %}
+      <a href="{{ url_for('views.answer', post_id=post.id) }}" class="btn btn-primary">Answer</a>
+      {% elif user == post.user or user.role != 'mentor' %}
+      <button type="button" class="close" onClick="deletePost({{ post.id }})">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    {% endif %}
   </li>
   {% endfor %}
 </ul>
