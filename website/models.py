@@ -12,6 +12,13 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     solved = db.Column(db.Boolean)
 
+    def question_by(self):
+        user = User.query.get(self.user_id)
+        if user:
+            return f"{user.first_name} ({user.education_level})"
+        else:
+            return 'Unknown User'
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -21,7 +28,7 @@ class User(db.Model, UserMixin):
     post = db.relationship('Post')
     education_level = db.Column(db.String(150))
     school = db.Column(db.String(150))
-    role = db.Column(db.String(50))
+    role = db.Column(db.String(50))   
 
 class Mentor(User):
     csp = db.Column(db.String(10))

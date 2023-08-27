@@ -70,7 +70,7 @@ def answer(post_id):
                 new_answer.answer_attachment = image_bytes
                 db.session.commit()
 
-            flash('Answer added!', category='success')
+            flash('Answer added! You have earned 10 CSP mins', category='success')
     return render_template("answer.html", post_id=post_id, user=current_user)
 
 # ... (your existing routes and code) ...
