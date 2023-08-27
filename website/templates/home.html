@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<h1 align="center">Post a</h1>
+<br>
+<h1 style="text-align: center">See all questions</h1>
 <ul class="list-group list-group-flush" id="post">
   {% for post in posts %} {# Loop through all_posts instead of user.post #}
   <li class="list-group-item">
@@ -15,12 +16,4 @@
   </li>
   {% endfor %}
 </ul>
-<form method="POST" enctype="multipart/form-data">
-  <textarea name="post" id="post" class="form-control"></textarea>
-  <input type="file" name="image" accept="image/*">
-  <br />
-  <div align="center">
-    <button type="submit" class="btn btn-primary">Create post</button>
-  </div>
-</form>
 {% endblock %}

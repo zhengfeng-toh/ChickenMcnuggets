@@ -69,3 +69,9 @@ def answer(post_id):
 
             flash('Post added!', category='success')
     return render_template("answer.html", post_id=post_id)
+
+
+@views.route('/create', methods=['GET'])
+def create():
+    return render_template('create.html', user=current_user)
+
