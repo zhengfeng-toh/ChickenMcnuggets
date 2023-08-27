@@ -71,7 +71,25 @@ def answer(post_id):
     return render_template("answer.html", post_id=post_id)
 
 
-@views.route('/create', methods=['GET'])
+@views.route('/create', methods=['GET','POST'])
 def create():
+    if request.method == 'POST':
+        post_text = request.form.get('post')
+        image_file = request.files.get('image')
+
+        if len(post_text) < 1:
+            flash('Post is too short!', category='error')
+        else:
+            new_post = Post(data=post_text, user_id=current_user.id)
+            db.session.add(new_post)
+            db.session.commit()
+
+            if image_file:
+                image_bytes = image_file.read()  # Read the image file as bytes
+                new_post.attachment = image_bytes
+                db.session.commit()
+
+            flash('Post added!', category='success')
+
     return render_template('create.html', user=current_user)
 
