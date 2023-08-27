@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Answer{% endblock %}
+{% block content %}
+<br>
+<h1 style="text-align: center">Answer the Question</h1>
+<div class="container">
+  <form action="{{ url_for('views.answer', post_id=post_id) }}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="answer">Your Answer:</label>
+      <textarea class="form-control" id="answer" name="post" rows="4" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="image">Attach Image:</label>
+      <input type="file" class="form-control-file" id="image" name="image">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Answer</button>
+  </form>
+</div>
+{% endblock %}
+

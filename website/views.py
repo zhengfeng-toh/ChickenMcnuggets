@@ -68,7 +68,7 @@ def answer(post_id):
                 db.session.commit()
 
             flash('Post added!', category='success')
-    return render_template("answer.html", post_id=post_id)
+    return render_template("answer.html", post_id=post_id, user=current_user)
 
 
 @views.route('/create', methods=['GET','POST'])
