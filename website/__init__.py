@@ -2,6 +2,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
+from base64 import b64encode
+
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -9,6 +11,10 @@ DB_NAME = "database.db"
 
 def create_app():
     app = Flask(__name__)
+    def base64_encode(data):
+        return b64encode(data).decode('utf-8')
+
+    app.jinja_env.filters['base64_encode'] = base64_encode
     app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)

@@ -4,12 +4,14 @@
 <br>
 <h1 style="text-align: center">See all questions</h1>
 <ul class="list-group list-group-flush" id="post">
-  {% for post in posts %} {# Loop through all_posts instead of user.post #}
-  <li class="list-group-item">
-    {{ post.data }}
+  {% for post in posts %}
+  <li class="list-group-item" style="display: flex; align-items: center;">
     {% if post.attachment %}
-      <img src="data:image/jpeg;base64,{{ post.attachment }}" alt="Post Attachment" width="100">
+      <img src="data:image/jpeg;base64,{{ post.attachment|base64_encode }}" alt="Post Attachment" width="300" height="300">
     {% endif %}
+    <div style="flex: 1;">
+      {{ post.data }}
+    </div>
     <button type="button" class="close" onClick="deletePost({{ post.id }})">
       <span aria-hidden="true">&times;</span>
     </button>
