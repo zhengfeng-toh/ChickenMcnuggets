@@ -37,5 +37,14 @@ class Mentor(User):
 #     mentor = db.relationship('Mentor', backref='answers')
 #     post = db.relationship('Post', backref='answers')
     
+class Answer(db.Model):
+    mentor_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key=True)
+    answer = db.Column(db.String(150))
+    answer_attachment = db.Column(db.LargeBinary)
 
+    # Define the mentor relationship
+    mentor = db.relationship('User', backref='answers', foreign_keys=[mentor_id])
+    # Define the post relationship
+    post = db.relationship('Post', backref='answers', foreign_keys=[post_id])
 

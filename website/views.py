@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
-from .models import Post
+from .models import Post, Answer
 from . import db
 import json
 
@@ -49,7 +49,10 @@ def delete_post():
     return jsonify({})
 
 
+# ... (your existing imports and code) ...
+
 @views.route('/answer/<int:post_id>', methods=['GET', 'POST'])
+@login_required
 def answer(post_id):
     if request.method == 'POST':
         answer_text = request.form.get('post')
@@ -58,17 +61,20 @@ def answer(post_id):
         if len(answer_text) < 1:
             flash('Answer is too short!', category='error')
         else:
-            new_answer = Post(data=answer_text, user_id=current_user.id)
+            new_answer = Answer(answer=answer_text, post_id=post_id, mentor_id=current_user.id)
             db.session.add(new_answer)
             db.session.commit()
 
             if image_file:
                 image_bytes = image_file.read()  # Read the image file as bytes
-                new_answer.attachment = image_bytes
+                new_answer.answer_attachment = image_bytes
                 db.session.commit()
 
-            flash('Post added!', category='success')
+            flash('Answer added!', category='success')
     return render_template("answer.html", post_id=post_id, user=current_user)
+
+# ... (your existing routes and code) ...
+
 
 
 @views.route('/create', methods=['GET','POST'])
