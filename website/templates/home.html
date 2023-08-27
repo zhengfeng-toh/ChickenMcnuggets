@@ -3,9 +3,10 @@
 {% block content %}
 <br>
 {% if user.role == 'mentor' %}
+  <h3 style="text-align: center">Welcome, Mentor {{ user.first_name }}</h3>
   <h1 style="text-align: center">See all questions</h1>
-{% endif %}
-{% if user.role != 'mentor' %}
+{% else %}
+  <h3 style="text-align: center">Welcome, Mentee {{ user.first_name }}</h3>
   <h1 style="text-align: center">See your questions</h1>
 {% endif %}
 <ul class="list-group list-group-flush" id="post">
